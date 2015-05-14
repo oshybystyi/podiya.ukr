@@ -1,13 +1,7 @@
-doctype html
-html
+extends ../layout
 
-  include ../includes/head.jade
+block content
+  include ../includes/navbar.jade
 
-  body
-
-    include ../includes/navbar.jade
-
-    section.container
-      block content
-
-    include ../includes/footer.jade
+  section.container
+    block admin-content
