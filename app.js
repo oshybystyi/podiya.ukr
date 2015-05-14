@@ -6,6 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
+// mongo session store
+var MongoSessionStore = require('connect-mongo')(session);
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
@@ -21,7 +24,10 @@ app.set('view engine', 'jade');
 app.use(session({
   secret: 'events session',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: new MongoSessionStore({
+    db: 'events-app'
+  })
 }));
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
