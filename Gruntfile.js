@@ -29,7 +29,9 @@ module.exports = function(grunt) {
                     "Safari >= 6"
                 ]
             },
-            src: 'public/stylesheets/style.css'
+            dev: {
+                src: 'public/stylesheets/style.css'
+            }
         },
 
         concat: {
