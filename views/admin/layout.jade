@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    nav.navbar
+      .container
+        .navbar-header
+          button(type='button', class='navbar-toggle collapsed', data-toggle='collapse', data-target='#admin-nav')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+
+        #admin-nav.collapse.navbar-collapse
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='/адмінка/додати-подію', title='Додати подію') Додати подію
+
+    section.container
+      block content
+
+    script(src='/javascripts/script.js')

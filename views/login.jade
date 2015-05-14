@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body#login-page
+    .container
+      .row
+        #credentials-block(class="col-lg-4 clearfix")
+          h1= title
+          #form
+            form(method='post', action='')
+              .form-group
+                label(for='user') Користувач
+                input(type='text', name='user', autofocus='autofocus', class='form-control', placeholder='Користувач')
+              .form-group
+                label(for='password') Пароль
+                input(type='password', name='password', class='form-control', placeholder='Пароль')
+
+              button(type='submit', class='btn btn-primary btn-lg') Вхід
+
+    script(src="/javascripts/script.js")
