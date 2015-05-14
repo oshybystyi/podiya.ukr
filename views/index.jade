@@ -1,6 +1,10 @@
 extends layout
 
 block content
+  - if (env === 'dev')
+      - env
+      include includes/navbar
+
   .container
     .row
       h1= title

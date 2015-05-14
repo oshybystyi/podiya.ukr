@@ -1,8 +1,10 @@
 var indexRouter = require('express').Router();
 
-/* GET home page. */
-indexRouter.get('/', function(req, res, next) {
-  res.render('index', { title: 'Подія' });
-});
+module.exports = function(app) {
+  /* GET home page. */
+  indexRouter.get('/', function(req, res, next) {
+    res.render('index', { title: 'Подія', env: app.get('env') });
+  });
 
-module.exports = indexRouter;
+  return indexRouter;
+}

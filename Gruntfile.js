@@ -11,7 +11,7 @@ module.exports = function(grunt) {
             dev: {
                 options: {
                     script: 'bin/www',
-                    node_env: 'development'
+                    node_env: 'dev'
                 }
             }
         },
