@@ -12,4 +12,9 @@ adminRouter.use('^/' + encodeURIComponent('адмінка') + '$', function(req,
     res.render('admin/home', {title: 'Адмінка'});
 });
 
+/** Addin event **/
+adminRouter.get('^/' + encodeURIComponent('адмінка') + '/додати-подію$', function(req, res) {
+    res.render('admin/add-event', {title: 'Додати подію'});
+});
+
 module.exports = adminRouter;
