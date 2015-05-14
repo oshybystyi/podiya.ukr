@@ -4,6 +4,10 @@ var loginRouter = require('express').Router(),
     uri = '/' + encodeURIComponent('логін');
 
 loginRouter.get(uri, function(req, res) {
+    if (req.session && req.session.user) {
+        res.redirect('/');
+    }
+
     res.render('login', {title: 'Нігол'});
 });
 
