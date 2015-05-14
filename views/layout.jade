@@ -1,9 +1,10 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+
+  include ./includes/head.jade
+
   body
     .container
       block content
-    script(src="/javascripts/script.js")
+
+    include ./includes/footer.jade
