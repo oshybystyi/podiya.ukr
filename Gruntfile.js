@@ -1,5 +1,19 @@
 module.exports = function(grunt) {
     grunt.initConfig({
+        copy: {
+            main: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: './bower_components/bootstrap/fonts/',
+                        src: ['*'],
+                        dest: './public/fonts/',
+                        filter: 'isFile'
+                    }
+                ]
+            }
+        },
+
         less: {
             dev: {
                 src: 'assets/less/style.less',
@@ -45,13 +59,6 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            configFiles: {
-                files: [ 'Gruntfile.js' ],
-                options: {
-                    reload: true
-                }
-            },
-
             less: {
                 files: [ 'assets/less/**/*.less' ],
                 tasks: [ 'less', 'autoprefixer' ],
@@ -72,12 +79,13 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('default', ['less', 'autoprefixer', 'concat', 'express:dev', 'watch']);
+    grunt.registerTask('default', ['copy', 'less', 'autoprefixer', 'concat', 'express:dev', 'watch']);
 
 }
