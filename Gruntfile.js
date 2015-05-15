@@ -52,7 +52,8 @@ module.exports = function(grunt) {
             scripts: {
                 src: [
                     'bower_components/jquery/dist/jquery.js',
-                    'bower_components/bootstrap/dist/bootstrap.js'
+                    'bower_components/bootstrap/dist/bootstrap.js',
+                    'assets/javascripts/script.js'
                 ],
                 dest: 'public/javascripts/script.js'
             }
@@ -68,8 +69,23 @@ module.exports = function(grunt) {
                 }
             },
 
+            concat: {
+                files: [ 'assets/javascripts/**' ],
+                tasks: [ 'concat' ]
+            },
+
             express: {
-                files: [ '**/*.js', '!**/node_modules/**', '!**/bower_components/**', '!Gruntfile.js' ],
+                files: [
+                    /** Include **/
+                    '**/*.js',
+
+                    /** Exclude **/
+                    '!**/node_modules/**',
+                    '!**/bower_components/**',
+                    '!Gruntfile.js',
+                    '!assets/**',
+                    '!public/**'
+                ],
                 tasks: [ 'express:dev' ],
                 options: {
                     spawn: false,

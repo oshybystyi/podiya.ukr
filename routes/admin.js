@@ -13,7 +13,7 @@ adminRouter.use('^/' + encodeURIComponent('адмінка') + '$', function(req,
 });
 
 /** Addin event **/
-adminRouter.get('^/' + encodeURIComponent('адмінка') + '/додати-подію$', function(req, res) {
+adminRouter.get('^/' + encodeURIComponent('адмінка') + '/' + encodeURIComponent('додати-подію') + '$', function(req, res) {
     res.render('admin/add-event', {title: 'Додати подію'});
 });
 
