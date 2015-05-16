@@ -3,16 +3,18 @@ var loginRouter = require('express').Router(),
     loginCtrl = require('../controllers/Login'),
     uri = '/' + encodeURIComponent('логін');
 
-loginRouter.get(uri, function(req, res) {
-    if (req.session && req.session.user) {
-        res.redirect('/');
-    }
+module.exports = function(app) {
+    loginRouter.get(uri, function(req, res) {
+        if (req.session && req.session.user) {
+            res.redirect('/');
+        }
 
-    res.render('login', {title: 'Нігол'});
-});
+        res.render('login', {title: 'Нігол', env: app.get('env')});
+    });
 
-loginRouter.post(uri, function(req, res) {
-    loginCtrl.loginAndRedirectAction(req, res);
-});
+    loginRouter.post(uri, function(req, res) {
+        loginCtrl.loginAndRedirectAction(req, res);
+    });
 
-module.exports = loginRouter;
+    return loginRouter;
+}

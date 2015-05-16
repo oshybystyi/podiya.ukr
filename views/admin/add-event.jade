@@ -74,9 +74,20 @@ block admin-content
                             placeholder='ГГ:ХХ'
                         )
 
+            .row
+                .col-lg-12
+                    .form-group
+                        label(for='tags') Теги (розділені комами)
+                        input(
+                            name='tags',
+                            type='text',
+                            class='form-control',
+                            placeholder='Теги (розділені комами)'
+                        )
+
             button(type='submit', class=['btn', 'btn-lg', 'btn-primary']).
                 Додати
 
             //- TODO: think about how to avoid duplicates of cities
             //- TODO: date with datepicker
-            //- TODO: add tags to events (rest, cultural)
+            //- TODO: autocomplete for tags (rest, cultural)

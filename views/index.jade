@@ -2,10 +2,10 @@ extends layout
 
 block content
   - if (env === 'dev')
-      - env
       include includes/navbar
 
   .container
     .row
-      h1= title
-      p Вітаю на #{title}
+      .col-lg-8.col-lg-push-2
+        h1= title
+        p Вітаю на #{title}

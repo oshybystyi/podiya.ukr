@@ -3,9 +3,12 @@ extends layout
 
 block body
   body#login-page
+    - if (env === 'dev')
+        include includes/navbar
+
     .container
       .row
-        #credentials-block(class="col-lg-4 clearfix")
+        #credentials-block.col-lg-4.clearfix
           h1= title
           #form
             form(method='post', action='')
@@ -29,4 +32,4 @@ block body
 
               button(type='submit', class='btn btn-primary btn-lg') Вхід
 
-    include ./includes/footer
+    include includes/footer
