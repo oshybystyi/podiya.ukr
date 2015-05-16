@@ -17,6 +17,13 @@ module.exports = function(app) {
     if (app.get('env') === 'dev') {
       app.use(function(err, req, res, next) {
         res.status(err.status || 500);
+
+        /** Logging to console **/
+        var type = err.type || 'server';
+        debug = require('debug')('events:' + type);
+        debug(err.message);
+
+        /** Rendering to browser **/
         res.render('error', {
           message: err.message,
           error: err

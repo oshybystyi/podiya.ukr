@@ -4,6 +4,9 @@ var app = require('express')();
 // mostly std stuff from `express app`
 require('./bootstrap/boilerplate')(app);
 
+// db
+require('./bootstrap/db')(app);
+
 // session initialization
 require('./bootstrap/session')(app);
 
