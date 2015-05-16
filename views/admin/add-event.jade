@@ -9,87 +9,92 @@ block admin-content
         .col-lg-6.col-lg-push-3
             h1 Додати подію
 
-            .form-group
-                label(for='name') Назва події
-                input(
-                    name='name',
-                    type='text',
-                    class='form-control',
-                    placeholder='Назва події'
-                )
+            form(method='post')
 
-            .form-group
-                label(for='description') Опис події
-                textarea(
-                    name='description',
-                    class='form-control',
-                    rows=10,
-                    placeholder='Опис події'
-                )
-
-            .form-group
-                label(for='city') Місто
-                input(
-                    name='city',
-                    type='text',
-                    class='form-control',
-                    placeholder='Місто'
-                )
-            
-            .form-group
-                label(for='address') Адреса
-                input(
-                    name='address',
-                    type='text',
-                    class='form-control',
-                    placeholder='Адреса'
-                )
-
-            .row
-                .form-group.col-lg-6
-                    label(for='date') Дата в форматі (РРРР-ММ-ДД)
+                .form-group
+                    label(for='name') Назва події
                     input(
-                        name='date',
+                        name='name',
                         type='text',
                         class='form-control',
-                        placeholder='РРРР-ММ-ДД'
+                        placeholder='Назва події'
                     )
 
-                .form-group.col-lg-6
-                    label(for='time') Час в форматі (ГГ:ХХ)
-                    .input-group
-                        .input-group-addon
+                .form-group
+                    label(for='description') Опис події
+                    textarea(
+                        name='description',
+                        class='form-control',
+                        rows=10,
+                        placeholder='Опис події'
+                    )
+
+                .form-group
+                    label(for='city') Місто
+                    input(
+                        name='city',
+                        type='text',
+                        class='form-control',
+                        placeholder='Місто'
+                    )
+                
+                .form-group
+                    label(for='address') Адреса
+                    input(
+                        name='address',
+                        type='text',
+                        class='form-control',
+                        placeholder='Адреса'
+                    )
+
+                .row
+                    .form-group.col-lg-6
+                        label(for='date') Дата в форматі (РРРР-ММ-ДД)
+                        input(
+                            name='date',
+                            type='text',
+                            class='form-control',
+                            placeholder='РРРР-ММ-ДД'
+                        )
+
+                    .form-group.col-lg-6
+                        label(for='time') Час в форматі (ГГ:ХХ)
+                        .input-group
+                            .input-group-addon
+                                input(
+                                    name='setTimeLater',
+                                    id='set-time-later',
+                                    type='checkbox',
+                                    data-target='#time'
+                                )
+                            p#time-later.form-control Встановити час пізніше
                             input(
-                                name='set-time-later',
-                                id='set-time-later',
-                                type='checkbox',
-                                data-target='#time'
+                                name='time',
+                                id='time',
+                                type='text',
+                                class='form-control',
+                                placeholder='ГГ:ХХ'
                             )
-                        p#time-later.form-control Встановити час пізніше
-                        input(
-                            name='time',
-                            id='time',
-                            type='text',
-                            class='form-control',
-                            placeholder='ГГ:ХХ'
-                        )
 
-            .row
-                .col-lg-12
-                    .form-group
-                        label(for='tags') Теги (розділені комами)
-                        input(
-                            name='tags',
-                            type='text',
-                            class='form-control',
-                            placeholder='Теги (розділені комами)'
-                        )
+                .row
+                    .col-lg-12
+                        .form-group
+                            label(for='tags') Теги (розділені комами)
+                            input(
+                                name='tags',
+                                type='text',
+                                class='form-control',
+                                placeholder='Теги (розділені комами)'
+                            )
 
-            button(type='submit', class=['btn', 'btn-lg', 'btn-primary']).
-                Додати
+                button(type='submit', class=['btn', 'btn-lg', 'btn-primary']).
+                    Додати
 
-            //- TODO: think about how to avoid duplicates of cities
-            //- TODO: date with datepicker
-            //- TODO: autocomplete for tags (rest, cultural)
-            //- TODO: figure out about description format (I mean markup or
-            //- other engine?)
+                //- TODO: think about how to avoid duplicates of cities
+                //- TODO: date with datepicker
+                //- TODO: autocomplete for tags (rest, cultural)
+                //- TODO: figure out about description format (I mean markup or
+                //- other engine?)
+                //- TODO: handle file uploads
+                //- TODO: ability to add duration of event (and checkbox for it
+                //- to be optional)

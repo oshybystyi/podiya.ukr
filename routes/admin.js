@@ -1,6 +1,8 @@
 
 var adminRouter = require('express').Router(),
-    adminAuth = require('../components/AdminAuth');
+    adminAuth = require('../components/AdminAuth'),
+    eventModel = require('../models/Event'),
+    addEventURI = '^/' + encodeURIComponent('адмінка') + '/' + encodeURIComponent('додати-подію') + '$';
 
 /** Authorization for all admin routes **/
 adminRouter.use('^/' + encodeURIComponent('адмінка'), function(req, res, next) {
@@ -12,9 +14,17 @@ adminRouter.use('^/' + encodeURIComponent('адмінка') + '$', function(req,
     res.render('admin/home', {title: 'Адмінка'});
 });
 
-/** Addin event **/
-adminRouter.get('^/' + encodeURIComponent('адмінка') + '/' + encodeURIComponent('додати-подію') + '$', function(req, res) {
+/** Add event **/
+adminRouter.get(addEventURI, function(req, res) {
     res.render('admin/add-event', {title: 'Додати подію'});
+});
+
+adminRouter.post(addEventURI, function(req, res) {
+    // TODO: form validation
+
+    eventModel.add(req);
+
+    res.redirect('/');
 });
 
 module.exports = adminRouter;
