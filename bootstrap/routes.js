@@ -10,3 +10,5 @@ module.exports = function(app) {
     app.use(adminRouter);
     app.use(loginRouter);
 }
+
+// TODO: sitemap generation route
