@@ -1,0 +1,37 @@
+
+extends layout
+
+block content
+    - if (env === 'dev')
+        include includes/navbar
+
+    .container
+        .row
+            .col-lg-8.col-lg-push-2
+                h1= title
+                p На цій сторінці ви можете переглянути події міста #{city}
+
+                each ev in events
+                    h3= ev.name
+                    p= ev.description
+                    p
+                        strong Адреса
+                        = ' ' + ev.address
+                    p
+                        strong Дата
+                        = ' '
+                        = ev.date.getFullYear() + '-'
+                        = ('0' + ev.date.getMonth()).slice(-2) + '-'
+                        = ('0' + ev.date.getDate()).slice(-2)
+                        if !ev.setTimeLater
+                            = ' '
+                            = ('0' + ev.date.getHours()).slice(-2) + ':'
+                            = ('0' + ev.date.getMinutes()).slice(-2)
+
+                        //- TODO: display date in proper format
+
+                    .tags
+                        h5: strong Теги
+                        = ev.tags.join(', ')
+
+//- TODO: display events on dates starting from today
