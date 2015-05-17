@@ -8,4 +8,13 @@ block content
     .row
       .col-lg-8.col-lg-push-2
         h1= title
-        p Вітаю на #{title}
+        p Для перегляду подій у своєму місті - натисніть на наступний селектор
+
+        .row
+          .col-lg-8
+            select#city-selector.form-control.input-lg
+              option(disabled selected value='') Виберіть своє місто
+              each val in cities
+                option(value= val.replace(/\s+/, '-').toLowerCase())= val
+
+  //- TODO: Think how to properly handle cities (I mean avoid lowercase)
