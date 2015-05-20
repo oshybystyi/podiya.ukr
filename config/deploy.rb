@@ -28,6 +28,7 @@ set :deploy_to, '/var/nodewww/events-app'
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+set :linked_dirs, fetch(:linked_dirs, []).push('node_modules', 'bower_components')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -37,12 +38,38 @@ set :deploy_to, '/var/nodewww/events-app'
 
 namespace :deploy do
 
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
+  before 'deploy:symlink:release', :npm_and_grunt do
+    on roles(:all) do
+
+      within "#{deploy_to}/releases" do
+
+        # get newly created folder
+        last_dir_str = capture :ls, '-lt'
+        last_dir = last_dir_str.split("\n")[1].split(' ').last
+
+        within last_dir do
+          execute :npm, 'install'
+          execute :bower, 'install'
+          execute :grunt, 'prod'
+          
+          within 'server-configs/etc/init.d/' do
+            as 'root' do
+              execute :cp, 'events-app', '/etc/init.d/'
+              execute 'update-rc.d', 'events-app', 'defaults'
+            end
+          end
+        end
+
+      end
+    end
+  end
+
+  # restart forever
+  after :finishing, :restart_forever do
+    on roles(:all) do
+      as 'root' do
+        execute :service, 'events-app', 'restart'
+      end
     end
   end
 

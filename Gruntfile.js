@@ -102,6 +102,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
+    grunt.registerTask('prod', ['copy', 'less', 'autoprefixer', 'concat']);
+
     grunt.registerTask('default', ['copy', 'less', 'autoprefixer', 'concat', 'express:dev', 'watch']);
 
 }
