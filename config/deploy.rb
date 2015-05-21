@@ -11,6 +11,8 @@ set :repo_url, 'git@bitbucket.org:oshybystyi/events-app.git'
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/var/nodewww/events-app'
 
+set :bundler_roles, %w(web app db)
+
 # Default value for :scm is :git
 # set :scm, :git
 
@@ -39,7 +41,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push('node_modules', 'bower_components
 namespace :deploy do
 
   before 'deploy:symlink:release', :npm_and_grunt do
-    on roles(:all) do
+    on release_roles(:all) do
 
       within "#{deploy_to}/releases" do
 
@@ -51,25 +53,24 @@ namespace :deploy do
           execute :npm, 'install'
           execute :bower, 'install'
           execute :grunt, 'prod'
-          
-          within 'server-configs/etc/init.d/' do
-            as 'root' do
-              execute :cp, 'events-app', '/etc/init.d/'
-              execute 'update-rc.d', 'events-app', 'defaults'
-            end
-          end
         end
 
       end
     end
   end
 
-  # restart forever
-  after :finishing, :restart_forever do
-    on roles(:all) do
-      as 'root' do
-        execute :service, 'events-app', 'restart'
-      end
+  after :finished, :restart_server do
+    on roles(:superuser) do
+      # copy service
+      src_path = "/var/nodewww/events-app/current/server-configs/etc/init.d/eventsapp"
+      dst_path = "/etc/init.d/"
+      execute :cp, src_path, dst_path
+
+      # install service
+      execute 'update-rc.d', 'eventsapp' ,'defaults'
+
+      # restart forever
+      execute :service, 'eventsapp', 'restart'
     end
   end
 

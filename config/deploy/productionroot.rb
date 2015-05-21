@@ -7,7 +7,7 @@
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 # server '146.120.89.81', user: 'root', roles: %w{app db web}
-server '146.120.89.81', user: 'nodejsuser', roles: %w{app}
+server '146.120.89.81', user: 'root', roles: %w{superuser}, no_release: true
 
 
 
