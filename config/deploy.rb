@@ -66,6 +66,9 @@ namespace :deploy do
       dst_path = "/etc/init.d/"
       execute :cp, src_path, dst_path
 
+      # remove previous service
+      execute 'update-rc.d', '-f', 'eventsapp', 'remove'
+
       # install service
       execute 'update-rc.d', 'eventsapp' ,'defaults'
 
