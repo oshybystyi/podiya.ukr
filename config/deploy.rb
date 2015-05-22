@@ -63,14 +63,17 @@ namespace :deploy do
     on roles(:superuser) do
       # copy service
       src_path = "/var/nodewww/events-app/current/server-configs/etc/init.d/eventsapp"
-      dst_path = "/etc/init.d/"
+      dst_path = "/etc/init/"
       execute :cp, src_path, dst_path
 
-      # install service
-      execute 'update-rc.d', 'eventsapp' ,'defaults'
-
       # restart forever
-      execute :service, 'eventsapp', 'restart'
+      begin
+        execute :stop, 'eventsapp'
+      rescue
+        p "Stopping eventsapp didn't work but don't care"
+      end
+
+      execute :start, 'eventsapp'
     end
   end
 
