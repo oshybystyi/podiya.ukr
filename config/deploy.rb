@@ -62,7 +62,7 @@ namespace :deploy do
   after :finished, :restart_server do
     on roles(:superuser) do
       # copy service
-      src_path = "/var/nodewww/events-app/current/server-configs/etc/init.d/eventsapp"
+      src_path = "/var/nodewww/events-app/current/server-configs/etc/init/eventsapp.conf"
       dst_path = "/etc/init/"
       execute :cp, src_path, dst_path
 
