@@ -11,7 +11,8 @@ nav.navbar
       a.navbar-brand(href='/')
         img(src='/images/logo.png')
 
-    #admin-nav.collapse.navbar-collapse
-      ul.nav.navbar-nav.navbar-right
-        li
-          a(href='/адмінка/додати-подію', title='Додати подію') Додати подію
+    - if (env === 'dev')
+      #admin-nav.collapse.navbar-collapse
+        ul.nav.navbar-nav.navbar-right
+          li
+            a(href='/адмінка/додати-подію', title='Додати подію') Додати подію
