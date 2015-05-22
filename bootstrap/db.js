@@ -4,8 +4,7 @@
  */
 
 var MongoClient = require('mongodb').MongoClient,
-    config = require('../appconfig'),
-    debug = require('debug')('events:db');
+    config = require('../appconfig');
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
