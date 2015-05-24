@@ -1,0 +1,6 @@
+
+User-agent: *
+
+Sitemap: http://xn--d1atc0e8a.xn--j1amh/sitemap.xml
+
+Host: http://xn--d1atc0e8a.xn--j1amh
