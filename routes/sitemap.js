@@ -20,7 +20,7 @@ router.get('^/sitemap.xml$', function(req, res, next) {
             docs.forEach(function(doc) {
                 urls.push({
                     loc: domain + '/' + encodeURIComponent(doc),
-                    chagefreq: 'daily'
+                    changefreq: 'daily'
                 });
             });
 
