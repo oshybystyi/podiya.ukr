@@ -16,7 +16,7 @@ module.exports = function(app) {
                 var cityName = docs[0].city;
 
                 res.render('city-events', {
-                    title: 'Події у місті ' + cityName,
+                    title: 'Події у місті ' + cityName + ' (Афіша)',
                     city: cityName,
                     events: docs,
                     env: app.get('env')
