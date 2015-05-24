@@ -29,7 +29,8 @@ Event.prototype.add = function(req) {
         address: req.body.address,
         setTimeLater: setTimeLater,
         date: date,
-        tags: tags
+        tags: tags,
+        source: req.body.source
     });
 }
 

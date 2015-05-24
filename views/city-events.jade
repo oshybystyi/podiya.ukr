@@ -33,4 +33,9 @@ block content
                         h5: strong Теги
                         = ev.tags.join(', ')
 
+                    - if (ev.source.length > 0)
+                        .source
+                            h5: strong Джерело
+                            a(href=ev.source, rel='nofollow')= ev.source
+
 //- TODO: display events on dates starting from today

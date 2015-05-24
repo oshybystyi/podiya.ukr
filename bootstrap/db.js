@@ -4,11 +4,11 @@
  */
 
 var MongoClient = require('mongodb').MongoClient,
-    config = require('../appconfig');
+    config = require('../default-config.json').mongoAppDb;
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
-        MongoClient.connect('mongodb://127.0.0.1:27017/' + config.db,
+        MongoClient.connect('mongodb://' + config.host + ':27017/' + config.db,
             function(err, db) {
                 if (err) {
                     var error = new Error('Database connection failed:' + err);

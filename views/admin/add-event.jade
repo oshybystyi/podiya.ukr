@@ -87,6 +87,17 @@ block admin-content
                                 placeholder='Теги (розділені комами)'
                             )
 
+                .row
+                    .col-lg-12
+                        .form-group
+                            label(for='source') Новину взято з
+                            input(
+                                name='source',
+                                type='text',
+                                class='form-control',
+                                placeholder='Посилання на джерело'
+                            )
+
                 button(type='submit', class=['btn', 'btn-lg', 'btn-primary']).
                     Додати
 
@@ -101,5 +112,3 @@ block admin-content
                 //- days, hours ...
                 //- TODO: ability to set repeating of event (like jumping with
                 //- parachute will will repeat saturday and sanday)
-                //- TODO: field to store the link to external resource or
-                //- or the site where the info was taken from

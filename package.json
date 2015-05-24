@@ -13,15 +13,16 @@
     "express": "~4.12.2",
     "express-session": "^1.11.2",
     "jade": "~1.9.2",
-    "mongodb": "^2.0.31",
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0",
+    "mongodb": "2.x",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^3.0.0",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-less": "^1.0.1",
-    "grunt-express-server": "^0.5.1"
+    "grunt-express-server": "^0.5.1",
+    "my-mongo-migrate": "git@github.com:oshybystyi/mongo-migrate.git#support-for-mongodb-2x"
   },
   "devDependencies": {
     "grunt-contrib-watch": "^0.6.1"

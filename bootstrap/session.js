@@ -4,7 +4,7 @@
  */
 
 var session = require('express-session'),
-    config = require('../appconfig');
+    config = require('../default-config.json').mongoAppDb;
 
 // mongo session store
 var MongoSessionStore = require('connect-mongo')(session);
