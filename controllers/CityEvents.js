@@ -55,11 +55,13 @@ CityEvents.prototype = {
 
                 if (!isArchive) {
                     findSelector.date = {$gte: new Date()};
+                    var sort = {date: 1};
                 } else {
                     findSelector.date = {$lte: new Date()};
+                    var sort = {date: -1};
                 }
 
-                collection.find(findSelector).toArray(function(err, currentEvents) {
+                collection.find(findSelector).sort(sort).toArray(function(err, currentEvents) {
                     if (err) {
                         if (isArchive) {
                             err.type = 'db:city-events:current';
