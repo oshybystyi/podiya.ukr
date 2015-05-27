@@ -12,18 +12,20 @@ block content
                 h1= title
                 p На цій сторінці ви можете переглянути події міста #{city}
 
-                each ev in events
-                    h3: a(href=ev.url)= ev.name
-                    p= ev.description
-                    p
-                        strong Дата
-                        = ' '
-                        + displayDate(ev)
+                if events.length > 0
+                    each ev in events
+                        h3: a(href=ev.url)= ev.name
+                        p= ev.description
+                        p
+                            strong Дата
+                            = ' '
+                            + displayDate(ev)
 
-                        //- TODO: display date in proper format
+                            //- TODO: display date in proper format
 
-                    .tags
-                        h5: strong Теги
-                        = ev.tags.join(', ')
-
-//- TODO: display events on dates starting from today
+                        .tags
+                            h5: strong Теги
+                            = ev.tags.join(', ')
+                else
+                    .well
+                        | Поки немає нових подій для міста #{city}

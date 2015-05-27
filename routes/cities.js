@@ -8,19 +8,41 @@ module.exports = function(app) {
 
         var cityReg = new RegExp('^' + city + '$', 'i');
 
-        req.db.collection('events').find({city: cityReg}).toArray(function(err, docs) {
-            if (err) {
-                next(err);
-            } else if (docs.length > 0) {
-                // quite a hack to avoid using changed req.params.city
-                var cityName = docs[0].city;
+        var collection = req.db.collection('events');
 
-                res.render('city-events', {
-                    title: 'Події у місті ' + cityName + ' (Афіша)',
-                    city: cityName,
-                    events: docs,
-                    env: app.get('env')
+        collection.find({city: cityReg}).toArray(function(err, docs) {
+            if (err) {
+                err.type = 'db:city-events';
+                return next(err);
+            } else if (docs.length > 0) {
+                // There are events for this city - so not a 404
+
+                var findSelector = {
+                    city: cityReg,
+                    date: {
+                        $gte: new Date()
+                    }
+                };
+
+                // Making another query to display events starting from current
+                // date
+                collection.find(findSelector).toArray(function(err, currentEvents) {
+                    if (err) {
+                        err.type = 'db:city-events:current';
+                        return next(err);
+                    }
+
+                    // quite a hack to avoid using changed req.params.city
+                    var cityName = docs[0].city;
+
+                    res.render('city-events', {
+                        title: 'Події у місті ' + cityName + ' (Афіша)',
+                        city: cityName,
+                        events: currentEvents,
+                        env: app.get('env')
+                    });
                 });
+
             } else {
                 // It is not a city from db
                 next();
