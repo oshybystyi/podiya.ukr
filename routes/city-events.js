@@ -15,5 +15,3 @@ module.exports = function(app) {
     return router;
 
 }
-
-// TODO: sort events by date
