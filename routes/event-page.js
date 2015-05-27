@@ -5,7 +5,7 @@ module.exports = function(app) {
     router.use(function(req, res, next) {
         var collection = req.db.collection('events');
 
-        collection.findOne({_encodedUrl: req.originalUrl}, {}, function(err, doc) {
+        collection.findOne({_encodedUrl: req.originalUrl.toLowerCase()}, {}, function(err, doc) {
             if (err) {
                 err.type = 'db-event-search';
                 next(err);
