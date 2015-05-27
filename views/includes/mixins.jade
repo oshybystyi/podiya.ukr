@@ -1,7 +1,7 @@
 
 mixin displayDate(ev)
     = ev.date.getFullYear() + '-'
-    = ('0' + ev.date.getMonth()).slice(-2) + '-'
+    = ('0' + (ev.date.getMonth() + 1)).slice(-2) + '-'
     = ('0' + ev.date.getDate()).slice(-2)
     if !ev.setTimeLater
         = ' '
