@@ -2,21 +2,22 @@
 var adminRouter = require('express').Router(),
     adminAuth = require('../components/AdminAuth'),
     eventModel = require('../models/Event'),
-    addEventURI = '^/' + encodeURIComponent('адмінка') + '/' + encodeURIComponent('додати-подію') + '$';
+    helper = require('../components/Helper'),
+    addEventURI = '^' + helper.encodeUrl('/адмінка/додати-подію') + '$';
 
 /** Authorization for all admin routes **/
-adminRouter.use('^/' + encodeURIComponent('адмінка'), function(req, res, next) {
+adminRouter.use('^' + helper.encodeUrl('/адмінка'), function(req, res, next) {
     adminAuth(req, res, next);
 });
 
 /** Admin homepage **/
-adminRouter.use('^/' + encodeURIComponent('адмінка') + '$', function(req, res) {
-    res.render('admin/home', {title: 'Адмінка'});
+adminRouter.get('^' + helper.encodeUrl('/адмінка') + '$', function(req, res) {
+    res.render('admin/home', {title: 'Адмінка', noGag: true});
 });
 
 /** Add event **/
 adminRouter.get(addEventURI, function(req, res) {
-    res.render('admin/add-event', {title: 'Додати подію'});
+    res.render('admin/add-event', {title: 'Додати подію', noGag: true});
 });
 
 adminRouter.post(addEventURI, function(req, res) {
