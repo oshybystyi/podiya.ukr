@@ -7,11 +7,17 @@ var helper = require('../components/Helper');
  *  validation:
  *      date - not empty and proper
  *      time - not empty and proper
+ *      name can't be archive
  */
 
 function Event() {}
 
 Event.prototype.add = function(req) {
+    if (req.body.name === 'Архів') {
+        // TODO: move that into validation
+        throw new Error('Event can not be called \'Архів\' - it is reserved word');
+    }
+
     var collection = req.db.collection('events');
 
     if (req.body.setTimeLater) {

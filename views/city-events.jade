@@ -10,7 +10,12 @@ block content
         .row
             .col-lg-8.col-lg-push-2
                 h1= title
-                p На цій сторінці ви можете переглянути події міста #{city}
+                unless isArchive
+                    p На цій сторінці ви можете переглянути події міста #{city}
+                else
+                    p 
+                        | На цій сторінці ви можете переглянути події, що 
+                        | відбулися в місті #{city}
 
                 if events.length > 0
                     each ev in events
@@ -28,4 +33,13 @@ block content
                             = ev.tags.join(', ')
                 else
                     .well
-                        | Поки немає нових подій для міста #{city}
+                        unless isArchive
+                            | Поки немає нових подій для міста #{city}
+                        else
+                            | Поки немає старих подій для міста #{city}
+
+            .col-lg-2.col-lg-push-2
+                unless isArchive
+                    a(href=originalUrl + '/архів') Архів подій
+                else
+                    a(href=noArchiveUrl) Нові події
