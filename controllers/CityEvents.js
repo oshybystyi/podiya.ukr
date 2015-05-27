@@ -1,4 +1,6 @@
 
+var helper = require('../components/Helper');
+
 /**
  * Controller for city events routes
  */
@@ -39,6 +41,11 @@ CityEvents.prototype = {
     },
 
     handler: function(req, res, next, isArchive, renderCallback) {
+        if (helper.toUrl(req.params.city) !== req.params.city) {
+            // check so that /City-name will throw 404
+            return next();
+        }
+
         var city = req.params.city.replace('-', ' ');
         var cityReg = new RegExp('^' + city + '$', 'i');
         var collection = req.db.collection('events');
