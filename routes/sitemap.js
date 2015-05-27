@@ -12,7 +12,7 @@ router.get('^/sitemap.xml$', function(req, res, next) {
         changefreq: 'monthly'
     });
 
-    async.parallel([
+    async.seriea([
         // links per town
         function(callback) {
             req.db.collection('events').distinct('city', function(err, docs) {
