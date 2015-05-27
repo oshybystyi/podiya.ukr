@@ -1,0 +1,36 @@
+
+extends layout
+
+include includes/mixins
+
+block content
+    include includes/navbar
+
+    .container
+        .row
+            .col-lg-8.col-lg-push-2
+                h1= title
+                p= ev.description
+                
+                p
+                    strong Адреса
+                    = ' ' + ev.address
+                    
+                p
+                    strong Дата
+                    = ' '
+                    + displayDate(ev)
+
+                    //- TODO: display date in proper format
+                .tags
+                    strong Теги
+                    = ' ' + ev.tags.join(', ')
+
+                - if (ev.source.length > 0)
+                    .source
+                        strong Джерело
+                        = ' '
+                        a(href=ev.source, rel='nofollow')= ev.source
+
+
+//- TODO: add breadcrumbs to the page

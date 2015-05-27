@@ -1,0 +1,9 @@
+
+mixin displayDate(ev)
+    = ev.date.getFullYear() + '-'
+    = ('0' + ev.date.getMonth()).slice(-2) + '-'
+    = ('0' + ev.date.getDate()).slice(-2)
+    if !ev.setTimeLater
+        = ' '
+        = ('0' + ev.date.getHours()).slice(-2) + ':'
+        = ('0' + ev.date.getMinutes()).slice(-2)

@@ -1,4 +1,6 @@
 
+var helper = require('../components/Helper');
+
 /**
  * Event model
  * TODO:
@@ -20,17 +22,28 @@ Event.prototype.add = function(req) {
             date = new Date(req.body.date + ' ' + req.body.time);
     }
 
-    var tags = req.body.tags.split(/\s*,\s*/);
+    var tags = req.body.tags.split(/\s*,\s*/),
+        name = req.body.name,
+        city = req.body.city;
+
+    // Generating url
+    var slug = helper.toUrl(req.body.name);
+
+    var city = helper.toUrl(req.body.city);
+
+    var url = '/' + city + '/' + slug;
 
     collection.insert({
-        name: req.body.name,
+        name: name,
         description: req.body.description,
-        city: req.body.city,
+        city: city,
         address: req.body.address,
         setTimeLater: setTimeLater,
         date: date,
         tags: tags,
-        source: req.body.source
+        source: req.body.source,
+        url: url,
+        _encodedUrl: helper.encodeUrl(url)
     });
 }
 

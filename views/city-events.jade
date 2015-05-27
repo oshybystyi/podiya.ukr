@@ -1,6 +1,8 @@
 
 extends layout
 
+include includes/mixins
+
 block content
     include includes/navbar
 
@@ -11,31 +13,17 @@ block content
                 p На цій сторінці ви можете переглянути події міста #{city}
 
                 each ev in events
-                    h3= ev.name
+                    h3: a(href=ev.url)= ev.name
                     p= ev.description
-                    p
-                        strong Адреса
-                        = ' ' + ev.address
                     p
                         strong Дата
                         = ' '
-                        = ev.date.getFullYear() + '-'
-                        = ('0' + ev.date.getMonth()).slice(-2) + '-'
-                        = ('0' + ev.date.getDate()).slice(-2)
-                        if !ev.setTimeLater
-                            = ' '
-                            = ('0' + ev.date.getHours()).slice(-2) + ':'
-                            = ('0' + ev.date.getMinutes()).slice(-2)
+                        + displayDate(ev)
 
                         //- TODO: display date in proper format
 
                     .tags
                         h5: strong Теги
                         = ev.tags.join(', ')
-
-                    - if (ev.source.length > 0)
-                        .source
-                            h5: strong Джерело
-                            a(href=ev.source, rel='nofollow')= ev.source
 
 //- TODO: display events on dates starting from today
