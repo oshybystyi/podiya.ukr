@@ -12,17 +12,17 @@ module.exports = function(app) {
                 next(err);
             }
 
-            var backUrl = '/' + helper.toUrl(doc.city),
-                backUrlTitle = 'До списку подій у місті ' + doc.city;
-
-            if (doc.date < new Date()) {
-                // If event in the archive already than back link should be
-                // ponting to this list
-                backUrl += '/архів';
-                backUrlTitle = 'До архіву подій у місті ' + doc.city;
-            }
-
             if (doc !== null) {
+                var backUrl = '/' + helper.toUrl(doc.city),
+                    backUrlTitle = 'До списку подій у місті ' + doc.city;
+
+                if (doc.date < new Date()) {
+                    // If event in the archive already than back link should be
+                    // ponting to this list
+                    backUrl += '/архів';
+                    backUrlTitle = 'До архіву подій у місті ' + doc.city;
+                }
+
                 res.render('event-page', {
                     title: doc.name + ' у місті ' + doc.city,
                     env: app.get('env'),

@@ -1,6 +1,7 @@
 
 var router = require('express').Router(),
-    async = require('async');
+    async = require('async'),
+    helper = require('../components/Helper');
 
 router.get('^/sitemap.xml$', function(req, res, next) {
     var urls = [],
@@ -21,8 +22,16 @@ router.get('^/sitemap.xml$', function(req, res, next) {
                     callback(err);
                 } else {
                     docs.forEach(function(doc) {
+                        var cityUrl = doc.toLowerCase();
+
                         urls.push({
-                            loc: domain + '/' + encodeURIComponent(doc),
+                            loc: domain + '/' + helper.encodeUrl(cityUrl),
+                            changefreq: 'daily'
+                        });
+
+                        // Arhive page links
+                        urls.push({
+                            loc: domain + '/' + helper.encodeUrl(cityUrl + '/архів'),
                             changefreq: 'daily'
                         });
                     });
