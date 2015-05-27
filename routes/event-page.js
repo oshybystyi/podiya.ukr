@@ -1,5 +1,6 @@
 
-var router = require('express').Router();
+var router = require('express').Router(),
+    helper = require('../components/Helper');
 
 module.exports = function(app) {
     router.use(function(req, res, next) {
@@ -15,7 +16,9 @@ module.exports = function(app) {
                 res.render('event-page', {
                     title: doc.name + ' у місті ' + doc.city,
                     env: app.get('env'),
-                    ev: doc
+                    ev: doc,
+                    backUrl: '/' + helper.toUrl(doc.city),
+                    city: doc.city
                 });
             } else {
                 next();
