@@ -48,12 +48,12 @@ Event.prototype = {
             city = req.body.city;
 
         // Generating url
-        var url = helper.toUrl('/' + city + '/' + name);
+        var url = '/' + helper.toUrl(city) + '/' + helper.toUrl(name);
 
         // Handling image
         var image = '';
         if (req.files.image) {
-            image = '/upload/images/event-images/' + req.files.image.name;
+            image = '/uploads/event-images/' + req.files.image.name;
         }
 
         collection.insert({

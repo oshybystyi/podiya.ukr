@@ -20,18 +20,39 @@ block content
                 if events.length > 0
                     each ev in events
                         h3: a(href=ev.url)= ev.name
-                        p= ev.description
-                        p
-                            strong Дата
-                            = ' '
-                            + displayDate(ev)
+                        .row
+                            if ev.image
+                                .col-lg-3
+                                    a(href=ev.url, title=ev.name)
+                                        img(src=ev.image, alt=ev.name, class='img-responsive')
+                                .col-lg-9
+                                    p= ev.description
+                                    p
+                                        strong Дата
+                                        = ' '
+                                        + displayDate(ev)
 
-                            //- TODO: display date in proper format
+                                        //- TODO: display date in proper format
 
-                        if ev.tags
-                            .tags
-                                h5: strong Теги
-                                = ev.tags.join(', ')
+                                    if ev.tags
+                                        .tags
+                                            h5: strong Теги
+                                            = ev.tags.join(', ')
+
+                            else
+                                .col-lg-12
+                                    p= ev.description
+                                    p
+                                        strong Дата
+                                        = ' '
+                                        + displayDate(ev)
+
+                                        //- TODO: display date in proper format
+
+                                    if ev.tags
+                                        .tags
+                                            h5: strong Теги
+                                            = ev.tags.join(', ')
                 else
                     .well
                         unless isArchive
