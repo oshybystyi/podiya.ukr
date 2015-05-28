@@ -28,9 +28,10 @@ block content
 
                             //- TODO: display date in proper format
 
-                        .tags
-                            h5: strong Теги
-                            = ev.tags.join(', ')
+                        if ev.tags
+                            .tags
+                                h5: strong Теги
+                                = ev.tags.join(', ')
                 else
                     .well
                         unless isArchive

@@ -30,7 +30,7 @@ set :bundler_roles, %w(web app db)
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-set :linked_dirs, fetch(:linked_dirs, []).push('node_modules', 'bower_components')
+set :linked_dirs, fetch(:linked_dirs, []).push('node_modules', 'bower_components', 'public/uploads')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -54,6 +54,9 @@ namespace :deploy do
           execute :bower, 'install'
           execute :grunt, 'prod'
           execute :node, './node_modules/mongo-migrate', '-runmm'
+
+          # create image uploads folder
+          execute :mkdir, '-p', 'public/uploads/event-images'
         end
 
       end

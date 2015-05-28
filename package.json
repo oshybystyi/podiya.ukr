@@ -22,6 +22,7 @@
     "jade": "~1.9.2",
     "mongodb": "2.x",
     "morgan": "~1.5.1",
+    "multer": "^0.1.8",
     "my-mongo-migrate": "git@github.com:oshybystyi/mongo-migrate.git#support-for-mongodb-2x",
     "serve-favicon": "~2.2.0"
   },

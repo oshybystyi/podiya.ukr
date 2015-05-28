@@ -9,7 +9,7 @@ block admin-content
         .col-lg-6.col-lg-push-3
             h1 Додати подію
 
-            form(method='post')
+            form(method='post', enctype='multipart/form-data')
 
                 .form-group
                     label(for='name') Назва події
@@ -28,6 +28,16 @@ block admin-content
                         rows=10,
                         placeholder='Опис події'
                     )
+
+                //- Added a .row instead of .form-group because in other way
+                //- .form-group looks pretty badly
+                .row
+                    .col-lg-12
+                        label(for='image') Зображення
+                        input(
+                            name='image',
+                            type='file'
+                        )
 
                 .form-group
                     label(for='city') Місто
