@@ -53,6 +53,7 @@ module.exports = function(grunt) {
                 src: [
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/bootstrap/dist/bootstrap.js',
+                    'bower_components/jquery-colorbox/jquery.colorbox.js',
                     'assets/javascripts/*.js'
                 ],
                 dest: 'public/javascripts/script.js'

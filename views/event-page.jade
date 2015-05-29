@@ -19,7 +19,7 @@ block content
                     //- Sorry, a bit of kludging
                     != '<div class="row">'
                     .col-lg-4
-                        a(href=ev.image, class="thumbnail")
+                        a(href=ev.image, class="thumbnail lightbox")
                             img(src=ev.image, alt=ev.name, class='img-responsive')
                     != '<div class="col-lg-8">'
 
@@ -54,3 +54,4 @@ block content
 //- TODO: notify when event has already passed (e.g. when somebody came from
 //- search engine) - do this after a day passed, also notify when event already
 //- started
+//- TODO: when clicking on the image that appeared on colorbox it should close
