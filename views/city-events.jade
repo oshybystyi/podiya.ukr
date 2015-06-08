@@ -19,7 +19,12 @@ block content
 
                 if events.length > 0
                     each ev in events
-                        h3: a(href=ev.url)= ev.name
+                        h3 
+                            a(href=ev.url)= ev.name
+                            if env === 'dev'
+                                = ' '
+                                a(href=editEvUrlPrefix + ev._id)
+                                    i.glyphicon.glyphicon-pencil
                         .row
                             if ev.image
                                 .col-lg-3

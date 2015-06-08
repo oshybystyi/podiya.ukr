@@ -1,9 +1,12 @@
 
+include js-functions
+
+//- Display date and time
 mixin displayDate(ev)
-    = ev.date.getFullYear() + '-'
-    = ('0' + (ev.date.getMonth() + 1)).slice(-2) + '-'
-    = ('0' + ev.date.getDate()).slice(-2)
+    //- Somehow js functions need to be included again
+    include js-functions
+
+    =YYYYMMDD(ev.date)
+
     if !ev.setTimeLater
-        = ' '
-        = ('0' + ev.date.getHours()).slice(-2) + ':'
-        = ('0' + ev.date.getMinutes()).slice(-2)
+        =HHMM(ev.date)

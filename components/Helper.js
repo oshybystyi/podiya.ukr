@@ -22,6 +22,17 @@ Helper.prototype = {
         });
 
         return encodedParts.join('/').toLowerCase();
+    },
+
+    /**
+     * Merge two objects
+     */
+    merge: function(dest, src) {
+        for (var prop in src) {
+            dest[prop] = src[prop]
+        }
+
+        return dest;
     }
 }
 

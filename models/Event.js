@@ -1,11 +1,10 @@
 
 var helper = require('../components/Helper'),
-    fs = require('fs');
+    ObjectID = require('mongodb').ObjectID;
 
 /**
  * Event model
- * TODO:
- *  validation:
+ * TODO: validation, priority: middle :
  *      * date - not empty and proper
  *      * time - not empty and proper
  *      * name can't be archive
@@ -18,7 +17,10 @@ var helper = require('../components/Helper'),
 function Event() {}
 
 Event.prototype = {
-    add: function(req) {
+
+    _validate: function(req) {
+        // TODO: need to be expanded much more
+
         if (typeof req.body.name === 'undefined') {
             // TODO: move this into validation
             throw new Error('Name is empty and that is not good');
@@ -28,9 +30,9 @@ Event.prototype = {
             // TODO: move that into validation
             throw new Error('Event can not be called \'Архів\' - it is reserved word');
         }
+    },
 
-        var collection = req.db.collection('events');
-
+    _eventFromRequest: function(req) {
         if (req.body.setTimeLater) {
             var setTimeLater = true,
                 date = new Date(req.body.date);
@@ -56,7 +58,7 @@ Event.prototype = {
             image = '/uploads/event-images/' + req.files.image.name;
         }
 
-        collection.insert({
+        return {
             name: name,
             description: req.body.description,
             city: city,
@@ -68,7 +70,33 @@ Event.prototype = {
             url: url,
             _encodedUrl: helper.encodeUrl(url),
             image: image
-        });
+        };
+    },
+
+    /** Insert new event **/
+    add: function(req) {
+        this._validate(req);
+
+        var collection = req.db.collection('events');
+
+        var ev = this._eventFromRequest(req);
+
+        collection.insert(ev);
+    },
+
+    /** Update existing event **/
+    update: function(req, old, callback) {
+        this._validate(req);
+
+        var collection = req.db.collection('events');
+
+        var ev = this._eventFromRequest(req);
+
+        // Don't update url because it might already be in search engines
+        delete ev.url;
+        delete ev._encodedUrl;
+
+        collection.update({_id: new ObjectID(old._id)}, {$set: ev}, {}, callback(ev));
     }
 };
 

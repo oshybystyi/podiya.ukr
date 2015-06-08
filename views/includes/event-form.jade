@@ -1,0 +1,131 @@
+
+include mixins
+
+form(method='post', enctype='multipart/form-data')
+
+    .form-group
+        label(for='name') Назва події
+        input(
+            name='name',
+            type='text',
+            class='form-control',
+            placeholder='Назва події',
+            value=ev.name
+        )
+
+    .form-group
+        label(for='description') Опис події
+        textarea(
+            name='description',
+            class='form-control',
+            rows=10,
+            placeholder='Опис події'
+        )
+            =ev.description
+
+    //- Added a .row instead of .form-group because in other way
+    //- .form-group looks pretty badly
+    .row
+        .col-lg-12
+            label(for='image') Зображення
+            input(
+                name='image',
+                type='file'
+            )
+
+    .form-group
+        label(for='city') Місто
+        input(
+            name='city',
+            type='text',
+            class='form-control',
+            placeholder='Місто',
+            value=ev.city
+        )
+    
+    .form-group
+        label(for='address') Адреса
+        input(
+            name='address',
+            type='text',
+            class='form-control',
+            placeholder='Адреса',
+            value=ev.address
+        )
+
+    .row
+        .form-group.col-lg-6
+            label(for='date') Дата в форматі (РРРР-ММ-ДД)
+            input(
+                name='date',
+                type='text',
+                class='form-control',
+                placeholder='РРРР-ММ-ДД',
+                value=YYYYMMDD(ev.date)
+            )
+
+        .form-group.col-lg-6
+            label(for='time') Час в форматі (ГГ:ХХ)
+            .input-group
+                .input-group-addon
+                    input(
+                        name='setTimeLater',
+                        id='set-time-later',
+                        type='checkbox',
+                        data-target='#time',
+                        checked=ev.setTimeLater
+                    )
+                p#time-later.form-control Встановити час пізніше
+                input(
+                    name='time',
+                    id='time',
+                    type='text',
+                    class='form-control',
+                    placeholder='ГГ:ХХ',
+                    value=HHMM(ev.date)
+                )
+
+    .row
+        .col-lg-12
+            .form-group
+                label(for='tags') Теги (розділені комами)
+                input(
+                    name='tags',
+                    type='text',
+                    class='form-control',
+                    placeholder='Теги (розділені комами)',
+                    value=ev.tags
+                )
+
+    .row
+        .col-lg-12
+            .form-group
+                label(for='source') Новину взято з
+                input(
+                    name='source',
+                    type='text',
+                    class='form-control',
+                    placeholder='Посилання на джерело',
+                    value=ev.source
+                )
+
+    //- TODO: add css padding at the bottom
+    button(type='submit', class=['btn', 'btn-lg', 'btn-primary'])
+        if ev
+            Оновити
+        else
+            Додати
+
+
+    //- TODO: validation for the form
+    //- TODO: think about how to avoid duplicates of cities
+    //- TODO: date with datepicker
+    //- TODO: autocomplete for tags (rest, cultural)
+    //- TODO: figure out about description format (I mean markup or
+    //- other engine?)
+    //- TODO: ability to add duration of event (and checkbox for it
+    //- to be optional) - think about distinction of setting in
+    //- days, hours ...
+    //- TODO: ability to set repeating of event (like jumping with
+    //- parachute will repeat saturday and sanday)
+    //- TODO: functionality of sub-events

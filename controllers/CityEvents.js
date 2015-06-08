@@ -8,39 +8,29 @@ function CityEvents() {}
 
 CityEvents.prototype = {
     
-    upcommingEvents: function(req, res, next, app) {
+    upcommingEventsAction: function(req, res, next, app) {
 
-        this.handler(req, res, next, false, function(cityName, currentEvents) {
-            return res.render('city-events', {
-                title: 'Події у місті ' + cityName + ' (Афіша)',
-                city: cityName,
-                events: currentEvents,
-                env: app.get('env'),
-                originalUrl: req.originalUrl,
-                isArchive: false
-            });
+        this.handler(req, res, next, false, app, function(commonProps) {
+            return res.render('city-events', helper.merge(commonProps, {
+                title: 'Події у місті ' + commonProps.cityName + ' (Афіша)'
+            }));
         });
 
     },
 
     // Old events or 'archived events'
-    oldEvents: function(req, res, next, app) {
+    oldEventsAction: function(req, res, next, app) {
 
-        this.handler(req, res, next, true, function(cityName, currentEvents) {
-            return res.render('city-events', {
-                title: 'Архів подій у місті ' + cityName,
-                city: cityName,
-                events: currentEvents,
-                env: app.get('env'),
-                originalUrl: req.originalUrl,
-                isArchive: true,
+        this.handler(req, res, next, true, app, function(commonProps) {
+            return res.render('city-events', helper.merge(commonProps, {
+                title: 'Архів подій у місті ' + commonProps.cityName,
                 noArchiveUrl: '/' + req.params.city
-            });
+            }));
         });
 
     },
 
-    handler: function(req, res, next, isArchive, renderCallback) {
+    handler: function(req, res, next, isArchive, app, renderCallback) {
         if (helper.toUrl(req.params.city) !== req.params.city) {
             // check so that /City-name will throw 404
             return next();
@@ -82,7 +72,18 @@ CityEvents.prototype = {
                     // quite a hack to avoid using changed req.params.city
                     var cityName = docs[0].city;
 
-                    return renderCallback(cityName, currentEvents);
+                    // Render properties that are common for archived and new
+                    // events
+                    var commonRenderProps = {
+                        city: cityName,
+                        events: currentEvents,
+                        env: app.get('env'),
+                        originalUrl: req.originalUrl,
+                        isArchive: isArchive,
+                        editEvUrlPrefix: '/адмінка/редагувати-подію/'
+                    };
+
+                    return renderCallback(commonRenderProps);
                 });
 
             } else {
