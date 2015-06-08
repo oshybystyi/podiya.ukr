@@ -19,15 +19,11 @@ adminRouter.get('^' + helper.encodeUrl('/адмінка') + '$', function(req, r
 
 /** Add event **/
 adminRouter.get(addEventURI, function(req, res) {
-    res.render('admin/add-event', {title: 'Додати подію', ev: {}, noGag: true});
+    eventCtrl.addAction(req, res);
 });
 
-adminRouter.post(addEventURI, function(req, res) {
-    // TODO: form validation
-
-    eventModel.add(req);
-
-    res.redirect('/');
+adminRouter.post(addEventURI, function(req, res, next) {
+    eventCtrl.insertAction(req, res, next);
 });
 
 /** Edit event **/

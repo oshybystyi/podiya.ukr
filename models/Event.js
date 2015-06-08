@@ -74,14 +74,14 @@ Event.prototype = {
     },
 
     /** Insert new event **/
-    add: function(req) {
+    insert: function(req, callback) {
         this._validate(req);
 
         var collection = req.db.collection('events');
 
         var ev = this._eventFromRequest(req);
 
-        collection.insert(ev);
+        collection.insert(ev, {}, callback(ev));
     },
 
     /** Update existing event **/

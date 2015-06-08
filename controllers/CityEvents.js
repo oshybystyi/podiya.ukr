@@ -12,7 +12,7 @@ CityEvents.prototype = {
 
         this.handler(req, res, next, false, app, function(commonProps) {
             return res.render('city-events', helper.merge(commonProps, {
-                title: 'Події у місті ' + commonProps.cityName + ' (Афіша)'
+                title: 'Події у місті ' + commonProps.city + ' (Афіша)'
             }));
         });
 
@@ -23,7 +23,7 @@ CityEvents.prototype = {
 
         this.handler(req, res, next, true, app, function(commonProps) {
             return res.render('city-events', helper.merge(commonProps, {
-                title: 'Архів подій у місті ' + commonProps.cityName,
+                title: 'Архів подій у місті ' + commonProps.city,
                 noArchiveUrl: '/' + req.params.city
             }));
         });

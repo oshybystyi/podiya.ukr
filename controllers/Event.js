@@ -14,6 +14,23 @@ var eventModel = require('../models/Event'),
 function Event() {}
 
 Event.prototype = {
+    addAction: function(req, res) {
+        return res.render('admin/add-event', {title: 'Додати подію', ev: {}, noGag: true});
+    },
+
+    insertAction: function(req, res, next) {
+        eventModel.insert(req, function(newDoc) {
+            return function(err) {
+                if (err) {
+                    err.type = 'db:event-insert';
+                    return next(err);
+                }
+
+                return res.redirect(helper.encodeUrl('/' + helper.toUrl(newDoc.city)));
+            };
+        });
+    },
+
     editAction: function(req, res, next) {
         this.handler(req, res, next, function(doc) {
             return res.render('admin/edit-event', {title: 'Редагувати подію', ev: doc, noGag: true});
