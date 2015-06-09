@@ -20,16 +20,21 @@ Event.prototype = {
     },
 
     insertAction: function(req, res, next) {
-        eventModel.insert(req, function(newDoc) {
-            return function(err) {
-                if (err) {
-                    err.type = 'db:event-insert';
-                    return next(err);
-                }
+        try {
+            eventModel.insert(req, function(newDoc) {
+                return function(err) {
+                    if (err) {
+                        err.type = 'db:event-insert';
+                        return next(err);
+                    }
 
-                return res.redirect(helper.encodeUrl('/' + helper.toUrl(newDoc.city)));
-            };
-        });
+                    return res.redirect(helper.encodeUrl('/' + helper.toUrl(newDoc.city)));
+                };
+            });
+        } catch (e) {
+            e.type = 'db.error-during-insert';
+            return next(e);
+        }
     },
 
     editAction: function(req, res, next) {
@@ -39,24 +44,29 @@ Event.prototype = {
     },
 
     updateAction: function(req, res, next) {
-        this.handler(req, res, next, function(doc) {
-            eventModel.update(req, doc, function(newDoc) {
-                return function(err) {
-                    if (err) {
-                        err.type = 'db:update-error';
-                        return next(err);
-                    }
+        try {
+            this.handler(req, res, next, function(doc) {
+                eventModel.update(req, doc, function(newDoc) {
+                    return function(err) {
+                        if (err) {
+                            err.type = 'db:update-error';
+                            return next(err);
+                        }
 
-                    // TODO: refactoring - need to create some better route
-                    // generation, priority: low
-                    if (doc.date >= new Date()) {
-                        return res.redirect(helper.encodeUrl('/' + helper.toUrl(newDoc.city)));
-                    } else {
-                        return res.redirect(helper.encodeUrl('/' + helper.toUrl(newDoc.city) + '/архів'));
+                        // TODO: refactoring - need to create some better route
+                        // generation, priority: low
+                        if (doc.date >= new Date()) {
+                            return res.redirect(helper.encodeUrl('/' + helper.toUrl(newDoc.city)));
+                        } else {
+                            return res.redirect(helper.encodeUrl('/' + helper.toUrl(newDoc.city) + '/архів'));
+                        }
                     }
-                }
+                });
             });
-        });
+        } catch (e) {
+            e.type = 'db:error-during-update';
+            return next(e);
+        }
     },
 
     handler: function(req, res, next, callback) {
