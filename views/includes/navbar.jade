@@ -11,7 +11,7 @@ nav.navbar
       a.navbar-brand(href='/')
         img(src='/images/logo.png')
 
-    - if (env === 'dev')
+    if authorized || env === 'dev'
       #admin-nav.collapse.navbar-collapse
         ul.nav.navbar-nav.navbar-right
           li

@@ -13,7 +13,8 @@ module.exports = function(app) {
         res.render('index', {
           title: 'Подія.укр',
           env: app.get('env'),
-          cities: docs.sort()
+          cities: docs.sort(),
+          authorized: (req.session && req.session.user)
         });
       }
     });

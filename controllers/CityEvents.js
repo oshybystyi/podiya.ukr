@@ -82,6 +82,7 @@ CityEvents.prototype = {
                         originalUrl: req.originalUrl,
                         isArchive: isArchive,
                         editEvUrlPrefix: '/адмінка/редагувати-подію/',
+                        authorized: (req.session && req.session.user === 'admin1'),
                         moment: moment
                     };
 
