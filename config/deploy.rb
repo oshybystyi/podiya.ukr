@@ -54,9 +54,6 @@ namespace :deploy do
           execute :bower, 'install'
           execute :grunt, 'prod'
           execute :node, './node_modules/mongo-migrate', '-runmm'
-
-          # create image uploads folder
-          execute :mkdir, '-p', 'public/uploads/event-images'
         end
 
       end
