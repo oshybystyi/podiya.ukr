@@ -96,6 +96,11 @@ Event.prototype = {
         delete ev.url;
         delete ev._encodedUrl;
 
+        // Don't overwrite image if it is old
+        if (ev.image === '') {
+            delete ev.image;
+        }
+
         collection.update({_id: new ObjectID(old._id)}, {$set: ev}, {}, callback(ev));
     }
 };
