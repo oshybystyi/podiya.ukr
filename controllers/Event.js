@@ -1,7 +1,8 @@
 
 var eventModel = require('../models/Event'),
     helper = require('../components/Helper'),
-    ObjectID = require('mongodb').ObjectID;
+    ObjectID = require('mongodb').ObjectID,
+    moment = require('moment');
 
 // TODO (possible): move handler into models/Event.js as find method, priority:
 // low
@@ -15,7 +16,7 @@ function Event() {}
 
 Event.prototype = {
     addAction: function(req, res) {
-        return res.render('admin/add-event', {title: 'Додати подію', ev: {}, noGag: true});
+        return res.render('admin/add-event', {title: 'Додати подію', ev: {}, noGag: true, moment: moment});
     },
 
     insertAction: function(req, res, next) {
@@ -33,7 +34,7 @@ Event.prototype = {
 
     editAction: function(req, res, next) {
         this.handler(req, res, next, function(doc) {
-            return res.render('admin/edit-event', {title: 'Редагувати подію', ev: doc, noGag: true});
+            return res.render('admin/edit-event', {title: 'Редагувати подію', ev: doc, noGag: true, moment: moment});
         });
     },
 

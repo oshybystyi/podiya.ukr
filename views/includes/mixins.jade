@@ -1,12 +1,7 @@
 
-include js-functions
-
 //- Display date and time
 mixin displayDate(ev)
-    //- Somehow js functions need to be included again
-    include js-functions
-
-    =YYYYMMDD(ev.date)
-
-    if !ev.setTimeLater
-        =HHMM(ev.date)
+    if ev.setTimeLater
+        =moment(ev.date).format('YYYY-MM-DD')
+    else
+        =moment(ev.date).format('YYYY-MM-DD hh:mm')

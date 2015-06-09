@@ -1,6 +1,7 @@
 
 var router = require('express').Router(),
-    helper = require('../components/Helper');
+    helper = require('../components/Helper'),
+    moment = require('moment');
 
 module.exports = function(app) {
     router.use(function(req, res, next) {
@@ -28,7 +29,8 @@ module.exports = function(app) {
                     env: app.get('env'),
                     ev: doc,
                     backUrl: backUrl,
-                    backUrlTitle: backUrlTitle
+                    backUrlTitle: backUrlTitle,
+                    moment: moment
                 });
             } else {
                 next();

@@ -61,7 +61,7 @@ form(method='post', enctype='multipart/form-data')
                 type='text',
                 class='form-control',
                 placeholder='РРРР-ММ-ДД',
-                value=YYYYMMDD(ev.date)
+                value=moment(ev.date).format('YYYY-MM-DD')
             )
 
         .form-group.col-lg-6
@@ -82,7 +82,7 @@ form(method='post', enctype='multipart/form-data')
                     type='text',
                     class='form-control',
                     placeholder='ГГ:ХХ',
-                    value=HHMM(ev.date)
+                    value=moment(ev.date).format('hh:mm')
                 )
 
     .row

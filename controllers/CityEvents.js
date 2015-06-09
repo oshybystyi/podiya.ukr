@@ -1,5 +1,6 @@
 
-var helper = require('../components/Helper');
+var helper = require('../components/Helper'),
+    moment = require('moment');
 
 /**
  * Controller for city events routes
@@ -80,7 +81,8 @@ CityEvents.prototype = {
                         env: app.get('env'),
                         originalUrl: req.originalUrl,
                         isArchive: isArchive,
-                        editEvUrlPrefix: '/адмінка/редагувати-подію/'
+                        editEvUrlPrefix: '/адмінка/редагувати-подію/',
+                        moment: moment
                     };
 
                     return renderCallback(commonRenderProps);
