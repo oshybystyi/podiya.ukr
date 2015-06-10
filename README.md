@@ -12,4 +12,10 @@
 bundle install
 ```
 
-Для деплоя на production необхідно `bundle exec cap production deploy`
+Для деплоя на production необхідно `./deploy.sh`
+
+### In english
+
+You need to run `DEBUG=events:* grunt` in development.
+
+To deploy you need to run `./deploy.sh`.
