@@ -31,7 +31,8 @@ block content
                                     a(href=ev.url, title=ev.name)
                                         img(src=ev.image, alt=ev.name, class='img-responsive')
                                 .col-lg-9
-                                    p= ev.description
+                                    pre
+                                        = shortenDescription(ev.description)
                                     p
                                         strong Дата
                                         = ' '
@@ -43,10 +44,14 @@ block content
                                         .tags
                                             h5: strong Теги
                                             = ev.tags.join(', ')
+
+                                    a(href=ev.url, class="btn btn-default")
+                                        Детальніше >
 
                             else
                                 .col-lg-12
-                                    p= ev.description
+                                    pre
+                                        = shortenDescription(ev.description)
                                     p
                                         strong Дата
                                         = ' '
@@ -54,14 +59,13 @@ block content
 
                                         //- TODO: display date in proper format
 
-                                    //- TODO: Display event description in <pre>,
-                                    //- also shorten it (so it differs from one
-                                    //- on the event details page)
-
                                     if ev.tags
                                         .tags
                                             h5: strong Теги
                                             = ev.tags.join(', ')
+
+                                    a(href=ev.url, class="btn btn-default")
+                                        Детальніше >
                 else
                     .well
                         unless isArchive

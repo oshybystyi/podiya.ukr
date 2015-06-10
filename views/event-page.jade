@@ -14,6 +14,10 @@ block content
         .row
             .col-lg-8.col-lg-push-2
                 h1= title
+                    if authorized || env === 'dev'
+                        = ' '
+                        a(href=editEvUrlPrefix + ev._id)
+                            i.glyphicon.glyphicon-pencil
 
                 if (ev.image)
                     //- Sorry, a bit of kludging
@@ -23,10 +27,9 @@ block content
                             img(src=ev.image, alt=ev.name, class='img-responsive')
                     != '<div class="col-lg-8">'
 
-                p= ev.description
+                pre
+                    = ev.description
 
-                //- TODO: display description in <pre>
-                
                 if ev.address
                     p
                         strong Адреса

@@ -30,7 +30,8 @@ module.exports = function(app) {
                     ev: doc,
                     backUrl: backUrl,
                     backUrlTitle: backUrlTitle,
-                    moment: moment
+                    moment: moment,
+                    editEvUrlPrefix: '/адмінка/редагувати-подію/'
                 });
             } else {
                 next();

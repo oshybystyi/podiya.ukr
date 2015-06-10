@@ -32,6 +32,8 @@ CityEvents.prototype = {
     },
 
     handler: function(req, res, next, isArchive, app, renderCallback) {
+        self = this;
+
         if (helper.toUrl(req.params.city) !== req.params.city) {
             // check so that /City-name will throw 404
             return next();
@@ -83,7 +85,8 @@ CityEvents.prototype = {
                         isArchive: isArchive,
                         editEvUrlPrefix: '/адмінка/редагувати-подію/',
                         authorized: (req.session && req.session.user === 'admin1'),
-                        moment: moment
+                        moment: moment,
+                        shortenDescription: self.shortenDescription
                     };
 
                     return renderCallback(commonRenderProps);
@@ -94,6 +97,17 @@ CityEvents.prototype = {
                 return next();
             }
         });
+    },
+
+    /**
+     * Shorten description to be displayed on city events page
+     */
+    shortenDescription: function(description) {
+        var parts = description.split(/\r?\n/);
+
+        var shortText = parts.slice(0, Math.ceil(parts.length * 0.3)).join("\n");
+
+        return shortText;
     }
 
 }
