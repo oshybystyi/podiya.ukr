@@ -10,6 +10,9 @@ require('./bootstrap/db')(app);
 // session initialization
 require('./bootstrap/session')(app);
 
+// authorization for secured areas
+require('./bootstrap/authorization')(app);
+
 // routes
 require('./bootstrap/routes')(app);
 

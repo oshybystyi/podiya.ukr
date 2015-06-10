@@ -19,7 +19,7 @@ module.exports = function(app) {
 
     // handle multipart/form-data
     app.use(multer({
-        dest: './public/uploads/event-images', // so far placing all the files are event images
+        dest: './public/uploads/event-images', // so far all the files are event images
         rename: function(fieldname, filename) {
             return filename.replace(/\W+/g, '-').toLowerCase() + Date.now();
         }
