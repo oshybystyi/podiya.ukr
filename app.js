@@ -20,3 +20,6 @@ require('./bootstrap/routes')(app);
 require('./bootstrap/error-handlers')(app);
 
 module.exports = app;
+
+//TODO: validator.w3.org/unicorn - throws a lot of errors
+//TODO: add logrotate to forever log
