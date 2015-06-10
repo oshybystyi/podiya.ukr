@@ -81,6 +81,9 @@ Event.prototype = {
 
         var ev = this._eventFromRequest(req);
 
+        ev.created = new Date();
+        ev.modified = new Date();
+
         collection.insert(ev, {}, callback(ev));
     },
 
@@ -100,6 +103,8 @@ Event.prototype = {
         if (ev.image === '') {
             delete ev.image;
         }
+
+        ev.modified = new Date();
 
         collection.update({_id: new ObjectID(old._id)}, {$set: ev}, {}, callback(ev));
     }
