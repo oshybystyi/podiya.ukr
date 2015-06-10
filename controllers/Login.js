@@ -6,19 +6,34 @@
 function Login() {}
 
 Login.prototype.loginAndRedirectAction = function(req, res) {
-    if (req.body.user === 'admin1' && req.body.password === 'admin2') {
-        req.session.user = 'admin1';
-        req.session.save();
+    var user = req.body.user,
+        password = req.body.password;
 
-        if (typeof req.session.prevUrl !== 'undefined') {
-            var dest = req.session.prevUrl;
-        } else {
-            var dest = '/';
-        }
+    if (user && password) {
+        req.db.collection('users').findOne({user: user, password: password}, {}, function(err, doc) {
+            if (err) {
+                err.type = 'db:login';
 
-        res.redirect(dest);
+                return next(err);
+            }
+
+            if (doc) {
+                req.session.user = user;
+                req.session.save();
+
+                if (typeof req.session.prevUrl !== 'undefined') {
+                    var dest = req.session.prevUrl;
+                } else {
+                    var dest = '/';
+                }
+
+                res.redirect(dest);
+            } else {
+                res.redirect(''); // redirect to self
+            }
+        });
     } else {
-        res.redirect(''); // redirect to self?
+        res.redirect(''); // redirect to self
     }
 };
 
