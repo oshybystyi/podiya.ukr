@@ -113,7 +113,7 @@ Event.prototype = {
             return next();
         }
 
-        Ev.find({_id: eventID}, function(err, doc) {
+        Ev.findOne({_id: eventID}, function(err, doc) {
             if (err) {
                 err.type = 'db:edit-event-lookup';
                 return next(err);
