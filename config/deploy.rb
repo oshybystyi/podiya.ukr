@@ -52,6 +52,7 @@ namespace :deploy do
         within last_dir do
           execute :npm, 'install'
           execute :bower, 'install'
+          execute :node, './node_modules/mongo-migrate', '-runmm'
           execute :grunt, 'prod'
         end
 
