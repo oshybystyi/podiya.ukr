@@ -53,7 +53,6 @@ namespace :deploy do
           execute :npm, 'install'
           execute :bower, 'install'
           execute :grunt, 'prod'
-          execute :node, './node_modules/mongo-migrate', '-runmm'
         end
 
       end

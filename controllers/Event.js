@@ -1,13 +1,11 @@
 
-var eventModel = require('../models/Event'),
+var Ev = require('../models/Event'),
+    ObjectId = require('mongoose').Types.ObjectId,
     helper = require('../components/Helper'),
-    ObjectID = require('mongodb').ObjectID,
     moment = require('moment');
 
 // TODO (possible): move handler into models/Event.js as find method, priority:
 // low
-
-// TODO: add something, hm
 
 /**
  * Controller for events routes
@@ -21,15 +19,14 @@ Event.prototype = {
 
     insertAction: function(req, res, next) {
         try {
-            eventModel.insert(req, function(newDoc) {
-                return function(err) {
-                    if (err) {
-                        err.type = 'db:event-insert';
-                        return next(err);
-                    }
+            var ev = new Ev(this.eventFromReq(req));
+            ev.save(function(err) {
+                if (err) {
+                    err.type = 'db:event-insert';
+                    return next(err);
+                }
 
-                    return res.redirect(helper.encodeUrl('/' + helper.toUrl(newDoc.city)));
-                };
+                return res.redirect(helper.encodeUrl('/' + helper.toUrl(ev.city)));
             });
         } catch (e) {
             e.type = 'db.error-during-insert';
@@ -46,20 +43,20 @@ Event.prototype = {
     updateAction: function(req, res, next) {
         try {
             this.handler(req, res, next, function(doc) {
-                eventModel.update(req, doc, function(newDoc) {
-                    return function(err) {
-                        if (err) {
-                            err.type = 'db:update-error';
-                            return next(err);
-                        }
+                var doc = helper.merge(doc, this.eventFromReq(req));
 
-                        // TODO: refactoring - need to create some better route
-                        // generation, priority: low
-                        if (doc.date >= new Date()) {
-                            return res.redirect(helper.encodeUrl('/' + helper.toUrl(newDoc.city)));
-                        } else {
-                            return res.redirect(helper.encodeUrl('/' + helper.toUrl(newDoc.city) + '/архів'));
-                        }
+                doc.save(function(err) {
+                    if (err) {
+                        err.type = 'db:update-error';
+                        return next(err);
+                    }
+
+                    // TODO: refactoring - need to create some better route
+                    // generation, priority: low
+                    if (doc.date >= new Date()) {
+                        return res.redirect(helper.encodeUrl('/' + helper.toUrl(doc.city)));
+                    } else {
+                        return res.redirect(helper.encodeUrl('/' + helper.toUrl(doc.city) + '/архів'));
                     }
                 });
             });
@@ -71,13 +68,15 @@ Event.prototype = {
 
     handler: function(req, res, next, callback) {
         try {
-            var eventID = new ObjectID(req.params.eventID)
+            // Checking if it is valid object id to avoid unnecessary db query
+            // on every request
+            var eventID = new ObjectId(req.params.eventID)
         } catch (e) {
             // means id is not correct -> 404
             return next();
         }
 
-        req.db.collection('events').findOne({_id: eventID}, {}, function(err, doc) {
+        Ev.find({_id: eventID}, function(err, doc) {
             if (err) {
                 err.type = 'db:edit-event-lookup';
                 return next(err);
@@ -90,6 +89,34 @@ Event.prototype = {
                 return next();
             }
         });
+    },
+
+    /** Extract event object ready to be used for event model **/
+    eventFromReq: function(req) {
+        if (req.body.setTimeLater) {
+            var setTimeLater = true,
+                date = new Date(req.body.date);
+        } else {
+            var setTimeLater = false,
+                date = new Date(req.body.date + ' ' + req.body.time);
+        }
+
+        var image = '';
+        if (req.files.image) {
+            image = '/uploads/event-images/' + req.files.image.name;
+        }
+
+        return {
+            name: req.body.name,
+            description: req.body.description,
+            city: req.body.city,
+            address: req.body.address,
+            setTimeLater: setTimeLater,
+            date: date,
+            tags: req.body.tags,
+            source: req.body.source,
+            image: image
+        };
     }
 };
 

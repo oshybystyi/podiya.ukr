@@ -3,22 +3,23 @@
  * Initializing mongodb database
  */
 
-var MongoClient = require('mongodb').MongoClient,
-    config = require('../default-config.json').mongoAppDb;
+var mongoose = require('mongoose'),
+    config = require('../default-config.json').mongoAppDb,
+    connectionString = 'mongodb://' + config.host + ':27017/' + config.db;
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
-        MongoClient.connect('mongodb://' + config.host + ':27017/' + config.db,
-            function(err, db) {
+        if (mongoose.connection.readyState === 0) {
+            mongoose.connect(connectionString, {}, function(err) {
                 if (err) {
-                    var error = new Error('Database connection failed:' + err);
-                    error.type = 'db';
-                    next(error);
-                } else {
-                    req.db = db;
-                    next();
+                    err.type = 'db:connection';
+                    return next(err);
                 }
-            }
-        );
+
+                return next();
+            });
+        } else {
+            next();
+        }
     });
 }

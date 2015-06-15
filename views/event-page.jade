@@ -41,7 +41,7 @@ block content
                     + displayDate(ev)
 
                     //- TODO: display date in proper format
-                if ev.tags
+                if ev.tags.length > 0
                     .tags
                         strong Теги
                         = ' ' + ev.tags.join(', ')

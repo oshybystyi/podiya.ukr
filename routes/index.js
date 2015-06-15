@@ -1,9 +1,11 @@
-var indexRouter = require('express').Router();
+var indexRouter = require('express').Router(),
+    Event = require('../models/Event');
 
 module.exports = function(app) {
   /* GET home page. */
   indexRouter.get('/', function(req, res, next) {
-    req.db.collection('events').distinct('city', function(err, docs) {
+
+    Event.distinct('city', function(err, docs) {
       if (err) {
         next(err);
       } else {
@@ -18,6 +20,7 @@ module.exports = function(app) {
         });
       }
     });
+
   });
 
   return indexRouter;

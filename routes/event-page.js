@@ -1,13 +1,13 @@
 
 var router = require('express').Router(),
     helper = require('../components/Helper'),
+    Event = require('../models/Event'),
     moment = require('moment');
 
 module.exports = function(app) {
     router.use(function(req, res, next) {
-        var collection = req.db.collection('events');
 
-        collection.findOne({_encodedUrl: req.originalUrl.toLowerCase()}, {}, function(err, doc) {
+        Event.findOne({_encodedUrl: req.originalUrl.toLowerCase()}, function(err, doc) {
             if (err) {
                 err.type = 'db-event-search';
                 next(err);
@@ -34,9 +34,11 @@ module.exports = function(app) {
                     editEvUrlPrefix: '/адмінка/редагувати-подію/'
                 });
             } else {
+                // It is not event url
                 next();
             }
         });
+
     });
 
     return router;

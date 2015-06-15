@@ -1,6 +1,7 @@
 
 var helper = require('../components/Helper'),
-    moment = require('moment');
+    moment = require('moment'),
+    Event = require('../models/Event');
 
 /**
  * Controller for city events routes
@@ -39,15 +40,17 @@ CityEvents.prototype = {
             return next();
         }
 
+        // TODO: this is of course not the best way to store cities
         var city = req.params.city.replace('-', ' ');
         var cityReg = new RegExp('^' + city + '$', 'i');
-        var collection = req.db.collection('events');
 
-        collection.find({city: cityReg}).toArray(function(err, docs) {
+        Event.find({city: cityReg}, function(err, docs) {
             if (err) {
                 err.type = 'db:city-events:all';
                 return next(err);
-            } else if (docs.length > 0) {
+            }
+
+            if (docs.length > 0) {
                 // There are events for this city - so not a 404
                 var findSelector = {
                     city: cityReg
@@ -61,39 +64,40 @@ CityEvents.prototype = {
                     var sort = {date: -1};
                 }
 
-                collection.find(findSelector).sort(sort).toArray(function(err, currentEvents) {
-                    if (err) {
-                        if (isArchive) {
-                            err.type = 'db:city-events:current';
-                        } else {
-                            err.type = 'db:city-events:archive';
+                Event.find(findSelector)
+                    .sort(sort)
+                    .exec(function(err, currentEvents) {
+                        if (err) {
+                            if (isArchive) {
+                                err.type = 'db:city-events:current';
+                            } else {
+                                err.type = 'db:city-events:archive';
+                            }
+
+                            return next(err);
                         }
 
-                        return next(err);
-                    }
+                        // quite a hack to avoid using changed req.params.city
+                        var cityName = docs[0].city;
 
-                    // quite a hack to avoid using changed req.params.city
-                    var cityName = docs[0].city;
+                        // Render properties that are common for archived and new
+                        // events
+                        var commonRenderProps = {
+                            city: cityName,
+                            events: currentEvents,
+                            env: app.get('env'),
+                            originalUrl: req.originalUrl,
+                            isArchive: isArchive,
+                            editEvUrlPrefix: '/адмінка/редагувати-подію/',
+                            authorized: (req.session && req.session.user === 'admin1'),
+                            moment: moment,
+                            shortenDescription: self.shortenDescription
+                        };
 
-                    // Render properties that are common for archived and new
-                    // events
-                    var commonRenderProps = {
-                        city: cityName,
-                        events: currentEvents,
-                        env: app.get('env'),
-                        originalUrl: req.originalUrl,
-                        isArchive: isArchive,
-                        editEvUrlPrefix: '/адмінка/редагувати-подію/',
-                        authorized: (req.session && req.session.user === 'admin1'),
-                        moment: moment,
-                        shortenDescription: self.shortenDescription
-                    };
-
-                    return renderCallback(commonRenderProps);
-                });
-
+                        return renderCallback(commonRenderProps);
+                    });
             } else {
-                // It is not a city from db
+                // Most probably 404
                 return next();
             }
         });
@@ -113,3 +117,5 @@ CityEvents.prototype = {
 }
 
 module.exports = new CityEvents();
+
+//TODO: refactor handler in form of promise
