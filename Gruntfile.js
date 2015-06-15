@@ -85,7 +85,8 @@ module.exports = function(grunt) {
                     '!**/bower_components/**',
                     '!Gruntfile.js',
                     '!assets/**',
-                    '!public/**'
+                    '!public/**',
+                    '!migrations/**'
                 ],
                 tasks: [ 'express:dev' ],
                 options: {
