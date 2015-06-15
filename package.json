@@ -21,6 +21,8 @@
     "grunt-express-server": "^0.5.1",
     "jade": "~1.9.2",
     "moment": "^2.10.3",
+    "mongo-migrate": "^0.1.0",
+    "mongodb": "^2.0.33",
     "mongoose": "^4.0.5",
     "morgan": "~1.5.1",
     "multer": "^0.1.8",
