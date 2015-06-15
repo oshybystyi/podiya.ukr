@@ -6,6 +6,7 @@ var Ev = require('../models/Event'),
 
 // TODO (possible): move handler into models/Event.js as find method, priority:
 // low
+// TODO: make promise in the handler, so render won't be a callback
 
 /**
  * Controller for events routes
@@ -13,6 +14,42 @@ var Ev = require('../models/Event'),
 function Event() {}
 
 Event.prototype = {
+    viewAction: function(req, res, next, app) {
+
+        Ev.findOne({_encodedUrl: req.originalUrl.toLowerCase()}, function(err, doc) {
+            if (err) {
+                err.type = 'db:event-search';
+                next(err);
+            }
+
+            if (doc !== null) {
+                var backUrl = '/' + helper.toUrl(doc.city),
+                    backUrlTitle = 'До списку подій у місті ' + doc.city;
+
+                if (doc.date < new Date()) {
+                    // If event in the archive already than back link should be
+                    // ponting to this list
+                    backUrl += '/архів';
+                    backUrlTitle = 'До архіву подій у місті ' + doc.city;
+                }
+
+                res.render('event-page', {
+                    title: doc.name + ' у місті ' + doc.city,
+                    env: app.get('env'),
+                    ev: doc,
+                    backUrl: backUrl,
+                    backUrlTitle: backUrlTitle,
+                    moment: moment,
+                    editEvUrlPrefix: '/адмінка/редагувати-подію/'
+                });
+            } else {
+                // It is not event url
+                next();
+            }
+        });
+
+    },
+
     addAction: function(req, res) {
         return res.render('admin/add-event', {title: 'Додати подію', ev: {}, noGag: true, moment: moment});
     },
